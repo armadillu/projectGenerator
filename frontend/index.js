@@ -573,7 +573,7 @@ ipc.on('update', function(event, arg) {
 
     var wholeString = pgApp + " " + recursiveString + " " + verboseString + " " + pathString + " " + platformString + " " + updatePath;
 
-    exec(wholeString, function callback(error, stdout, stderr) {
+    exec(wholeString, {maxBuffer : Infinity}, function callback(error, stdout, stderr) {
 
         if (error === null) {
             event.sender.send('consoleMessage', "<strong>" + wholeString + "</strong><br>" + stdout);
@@ -659,7 +659,7 @@ ipc.on('generate', function(event, arg) {
 
     var wholeString = pgApp + " " + verboseString + " " + pathString + " " + addonString + " " + platformString + " " + projectString;
 
-    exec(wholeString, function callback(error, stdout, stderr) {
+    exec(wholeString, {maxBuffer : Infinity}, function callback(error, stdout, stderr) {
 
         var wasError = false;
         var text = stdout; //Big text with many line breaks
@@ -817,7 +817,7 @@ ipc.on('launchProjectinIDE', function(event, arg) {
         console.log( osxPath );
         osxPath = "\"" + osxPath + "\"";
 				var exec = require('child_process').exec;
-        exec('open ' + osxPath, function callback(error, stdout, stderr){
+        exec('open ' + osxPath, {maxBuffer : Infinity}, function callback(error, stdout, stderr){
             return;
         });
     } else if( arg.platform == 'linux' || arg.platform == 'linux64' ){
@@ -825,7 +825,7 @@ ipc.on('launchProjectinIDE', function(event, arg) {
         linuxPath = linuxPath.replace(/ /g, '\\ ');
         console.log( linuxPath );
         var exec = require('child_process').exec;
-        exec('xdg-open ' + linuxPath, function callback(error, stdout, stderr){
+        exec('xdg-open ' + linuxPath, {maxBuffer : Infinity}, function callback(error, stdout, stderr){
             return;
         });
     } else if( arg.platform == 'android'){
@@ -835,7 +835,7 @@ ipc.on('launchProjectinIDE', function(event, arg) {
         console.log( windowsPath );
         windowsPath = "\"" + windowsPath + "\"";
         var exec = require('child_process').exec;
-        exec('start ' + "\"\"" + " " + windowsPath, function callback(error, stdout, stderr){
+        exec('start ' + "\"\"" + " " + windowsPath, {maxBuffer : Infinity}, function callback(error, stdout, stderr){
             return;
         });
     }
