@@ -71,6 +71,8 @@ public:
     std::string getName() { return projectName;}
     std::string getPath() { return projectDir; }
 
+	void setExternalSrc(const std::vector<std::string> & extSrc); //set any external src dirs the user supplied
+
     std::vector<Template> listAvailableTemplates(std::string target);
     std::unique_ptr<baseProject::Template> parseTemplate(const ofDirectory & templateDir);
 	virtual std::string getPlatformTemplateDir();
@@ -87,6 +89,7 @@ protected:
     void recursiveCopyContents(const ofDirectory & srcDir, ofDirectory & destDir);
 
     std::vector<ofAddon> addons;
+	std::vector<std::string> externalSrc; //any paths the user has supplied as extra source to add to prj
 };
 
 

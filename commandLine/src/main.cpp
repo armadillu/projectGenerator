@@ -1,7 +1,7 @@
 #include "ofMain.h"
 #include "optionparser.h"
 #include "defines.h"
-enum  optionIndex { UNKNOWN, HELP, PLUS, RECURSIVE, LISTTEMPLATES, PLATFORMS, ADDONS, OFPATH, VERBOSE, TEMPLATE, DRYRUN, VERSION };
+enum  optionIndex { UNKNOWN, HELP, PLUS, RECURSIVE, LISTTEMPLATES, PLATFORMS, ADDONS, OFPATH, VERBOSE, TEMPLATE, DRYRUN, VERSION, EXT_SRC };
 constexpr option::Descriptor usage[] =
 {
     {UNKNOWN, 0, "", "",option::Arg::None, "Options:\n" },
@@ -15,6 +15,7 @@ constexpr option::Descriptor usage[] =
     {TEMPLATE, 0,"t","template",option::Arg::Optional, "  --template, -t  \tproject template" },
     {DRYRUN, 0,"d","dryrun",option::Arg::None, "  --dryrun, -d  \tdry run, don't change files" },
     {VERSION, 0, "w", "version", option::Arg::None, "  --version, -d  \treturn the current version"},
+	{EXT_SRC, 0,"e","externalSrc",option::Arg::Optional, "  --externalSrc, -e  \tpath to any src you want to add to the prj that is not located in the project/src dir" },
     {0,0,0,0,0,0}
 };
 
@@ -59,6 +60,7 @@ std::string              projectPath;
 std::string              ofPath;
 std::vector <std::string>     addons;
 std::vector <ofTargetPlatform>        targets;
+std::vector <std::string>     externalSrcDirs;
 std::string              ofPathEnv;
 std::string              currentWorkingDirectory;
 std::string              templateName;
@@ -72,7 +74,6 @@ bool bRecursive;                        // do we recurse in update mode?
 bool bHelpRequested;                    // did we request help?
 bool bListTemplates;                    // did we request help?
 bool bDryRun;                           // do dry run (useful for debugging recursive update)
-
 
 
 
@@ -205,14 +206,7 @@ bool isGoodProjectPath(std::string path) {
         }
     }
 
-    if (bHasSrc == true) {
-        return true;
-    }
-    else {
-        return false;
-    }
-
-
+	return bHasSrc;
 }
 
 bool isGoodOFPath(std::string path) {
@@ -253,6 +247,7 @@ void updateProject(std::string path, ofTargetPlatform target, bool bConsiderPara
     ofLogNotice() << "updating project " << path;
     auto project = getTargetProject(target);
 
+	project->setExternalSrc(externalSrcDirs);
     if (!bDryRun) project->create(path, templateName);
 
     if(bConsiderParameterAddons && bAddonsPassedIn){
@@ -399,7 +394,14 @@ int main(int argc, char* argv[]){
     if (options[VERBOSE].count() > 0){
         bVerbose = true;
     }
-    
+
+	if (options[EXT_SRC].count() > 0){
+		if (options[EXT_SRC].arg != NULL){
+			std::string extSrcPathString(options[EXT_SRC].arg);
+			externalSrcDirs = ofSplitString(extSrcPathString, ",", true, true);
+		}
+	}
+
     if (options[PLATFORMS].count() > 0){
         if (options[PLATFORMS].arg != NULL){
 	    std::string platformString(options[PLATFORMS].arg);
@@ -565,7 +567,9 @@ int main(int argc, char* argv[]){
             
 
             ofLogNotice() << "setting up new project " << projectPath;
+			project->setExternalSrc(externalSrcDirs);
             if (!bDryRun) project->create(projectPath, templateName);
+
 
             if (!bDryRun){
                 for(auto & addon: addons){

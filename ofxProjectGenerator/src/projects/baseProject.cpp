@@ -106,6 +106,10 @@ vector<baseProject::Template> baseProject::listAvailableTemplates(std::string ta
     return templates;
 }
 
+void baseProject::setExternalSrc(const std::vector<std::string> & extSrc_){
+	externalSrc = extSrc_;
+}
+
 bool baseProject::create(string path, std::string templateName){
     templatePath = getPlatformTemplateDir();
     addons.clear();
@@ -150,6 +154,30 @@ bool baseProject::create(string path, std::string templateName){
     if(!ret) return false;
 
     parseConfigMake();
+
+	for(auto & srcPath : externalSrc){ //walk all user supplied external src paths
+
+		vector < string > fileNames;
+		getFilesRecursively(ofFilePath::join(projectDir, srcPath), fileNames);
+
+		for (int i = 0; i < (int)fileNames.size(); i++){
+			fileNames[i].erase(fileNames[i].begin(), fileNames[i].begin() + projectDir.length());
+
+			string first, last;
+			#ifdef TARGET_WIN32
+			splitFromLast(fileNames[i], "\\", first, last);
+			ofStringReplace(first, "..\\", ""); //remove any relative path components as they dont add anything to the project hierarchy
+			string groupTree = "src\\externalSrc\\" + first;
+			#else
+			splitFromLast(fileNames[i], "/", first, last);
+			ofStringReplace(first, "../", ""); //remove any relative path components as they dont add anything to the project hierarchy
+			string groupTree = "src/externalSrc/" + first;
+			#endif
+
+			addSrc(fileNames[i], groupTree);
+		}
+	}
+
 
     if (bDoesDirExist){
         vector < string > fileNames;
