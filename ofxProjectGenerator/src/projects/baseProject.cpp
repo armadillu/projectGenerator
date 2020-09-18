@@ -240,21 +240,26 @@ void baseProject::addAddon(std::string addonName){
 
     
     auto localPath = ofFilePath::join(addon.pathToProject, addonName);
-    
+	bool addonOK = false;
+
     if (ofDirectory(addonName).exists()){
         // if it's an absolute path, convert to relative...
         string relativePath = ofFilePath::makeRelative(addon.pathToProject, addonName);
         addonName = relativePath;
         addon.isLocalAddon = true;
-        addon.fromFS(addonName, target);
+        addonOK = addon.fromFS(addonName, target);
     } else if(ofDirectory(localPath).exists()){
         addon.isLocalAddon = true;
-        addon.fromFS(addonName, target);
+        addonOK = addon.fromFS(addonName, target);
     }else{
         addon.isLocalAddon = false;
         auto standardPath = ofFilePath::join(ofFilePath::join(getOFRoot(), "addons"), addonName);
-        addon.fromFS(standardPath, target);
+        addonOK = addon.fromFS(standardPath, target);
     }
+	if(!addonOK){
+		ofLogError() << "addon does not exist! " << addonName;
+		return; //if addon does not exist, stop early
+	}
 
     addAddon(addon);
 
@@ -295,13 +300,27 @@ void baseProject::addAddon(std::string addonName){
 }
 
 void baseProject::addAddon(ofAddon & addon){
+
+	ofLogWarning() << "baseProject::addAddon() " << addon.name;
+
     for(int i=0;i<(int)addons.size();i++){
-		if(addons[i].name==addon.name) return;
+		if(addons[i].name==addon.name){
+			ofLogError() << "trying to add duplicated addon! skipping: " << addon.name;
+			return;
+		}
 	}
     
     for(int i=0;i<addon.dependencies.size();i++){
-        addAddon(addon.dependencies[i]);
+		for(int j=0;j<(int)addons.size();j++){
+			if(addon.dependencies[i] != addons[j].name){ //make sure dependencies of addons arent already added to prj
+				ofLogWarning()<< "adding addon dependency: " << addon.dependencies[i];
+				addAddon(addon.dependencies[i]);
+			}else{
+				ofLogError() << "trying to add duplicated addon dependency! skipping: " << addon.dependencies[i];
+			}
+		}
     }
+
 
 	addons.push_back(addon);
 
