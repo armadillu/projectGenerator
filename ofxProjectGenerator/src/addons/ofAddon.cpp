@@ -446,7 +446,7 @@ void ofAddon::parseConfig(){
 	}
 }
 
-bool ofAddon::fromFS(string path, string platform){
+bool ofAddon::fromFS(std::string path, const std::string & platform){
     clear();
     this->platform = platform;
 	string prefixPath;
