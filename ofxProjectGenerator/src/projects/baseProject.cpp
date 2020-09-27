@@ -303,7 +303,6 @@ void baseProject::addAddon(ofAddon & addon){
 
     for(int i=0;i<(int)addons.size();i++){
 		if(addons[i].name==addon.name){
-			ofLogVerbose() << "trying to add duplicated addon! skipping: " << addon.name;
 			return;
 		}
 	}
