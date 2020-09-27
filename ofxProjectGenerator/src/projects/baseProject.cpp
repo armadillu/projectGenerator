@@ -301,11 +301,9 @@ void baseProject::addAddon(std::string addonName){
 
 void baseProject::addAddon(ofAddon & addon){
 
-	ofLogWarning() << "baseProject::addAddon() " << addon.name;
-
     for(int i=0;i<(int)addons.size();i++){
 		if(addons[i].name==addon.name){
-			ofLogError() << "trying to add duplicated addon! skipping: " << addon.name;
+			ofLogVerbose() << "trying to add duplicated addon! skipping: " << addon.name;
 			return;
 		}
 	}
@@ -313,10 +311,9 @@ void baseProject::addAddon(ofAddon & addon){
     for(int i=0;i<addon.dependencies.size();i++){
 		for(int j=0;j<(int)addons.size();j++){
 			if(addon.dependencies[i] != addons[j].name){ //make sure dependencies of addons arent already added to prj
-				ofLogWarning()<< "adding addon dependency: " << addon.dependencies[i];
 				addAddon(addon.dependencies[i]);
 			}else{
-				ofLogError() << "trying to add duplicated addon dependency! skipping: " << addon.dependencies[i];
+				ofLogVerbose() << "trying to add duplicated addon dependency! skipping: " << addon.dependencies[i];
 			}
 		}
     }
