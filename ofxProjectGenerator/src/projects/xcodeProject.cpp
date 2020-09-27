@@ -1219,7 +1219,6 @@ void xcodeProject::addCPPFLAG(std::string cppflag, LibType libType){
 }
 
 void xcodeProject::addAddon(ofAddon & addon){
-
     for(int i=0;i<(int)addons.size();i++){
 		if(addons[i].name==addon.name){
 			return;
@@ -1239,6 +1238,7 @@ void xcodeProject::addAddon(ofAddon & addon){
 			}
 		}
 	}
+	ofLogNotice() << "adding addon: " << addon.name;
 	addons.push_back(addon);
 
     for(int i=0;i<(int)addon.includePaths.size();i++){
@@ -1263,9 +1263,11 @@ void xcodeProject::addAddon(ofAddon & addon){
     }
     std::sort(addon.srcFiles.begin(), addon.srcFiles.end(), std::less<std::string>());
     for(int i=0;i<(int)addon.srcFiles.size(); i++){
+        ofLogVerbose() << "adding addon srcFiles: " << addon.srcFiles[i];
         addSrc(addon.srcFiles[i],addon.filesToFolders[addon.srcFiles[i]]);
     }
 	for(int i=0;i<(int)addon.defines.size(); i++){
+		ofLogVerbose() << "adding addon defines: " << addon.defines[i];
 		addDefine(addon.defines[i]);
 	}
 
