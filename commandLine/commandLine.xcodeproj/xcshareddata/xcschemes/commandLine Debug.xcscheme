@@ -47,14 +47,14 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "YES"
-      customWorkingDirectory = "/Users/oriol/OF_uricat/Scripts"
+      customWorkingDirectory = "/Users/oriol/Desktop/OF_uricat/Scripts"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
       <PathRunnable
          runnableDebuggingMode = "0"
-         FilePath = "/Users/oriol/OF_uricat/OpenFrameworks/apps/projectGenerator/commandLine/bin/projectGenerator">
+         FilePath = "/Users/oriol/Desktop/OF_uricat/OpenFrameworks/apps/projectGenerator/commandLine/bin/projectGenerator">
       </PathRunnable>
       <MacroExpansion>
          <BuildableReference
@@ -67,7 +67,7 @@
       </MacroExpansion>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "-o&quot;../OpenFrameworks&quot;  -p&quot;osx,vs&quot; -a&quot;ofxNetwork,ofxOsc,ofxPoco,ofxXmlSettings,ofxOpenCv,../../ExternalAddons/ofxFontStash,../../ExternalAddons/ofxFontStash2,../../ExternalAddons/ofxTuio,../../ExternalAddons/ofxJSON,../../ExternalAddons/ofxSuperLog,../../ExternalAddons/ofxAutoTexture,../../ExternalAddons/ofxMTJsonParser,../../ExternalAddons/ofxSimpleHttp,../../ExternalAddons/ofxTagSystem,../../ExternalAddons/ofxStateMachine,../../ExternalAddons/ofxAssets,../../ExternalAddons/ofxProgressiveTextureLoad,../../ExternalAddons/ofxTexturedObject,../../ExternalAddons/ofxMullion,../../ExternalAddons/ofxJsonSettings,../../ExternalAddons/ofxTimeMeasurements,../../ExternalAddons/ofxRemoteUI,../../ExternalAddons/ofxHistoryPlot,../../ExternalAddons/ofxAnimatable,../../ExternalAddons/ofxScreenSetup,../../ExternalAddons/ofxSensu,../../ExternalAddons/ofxGoogleAnalytics,../../ExternalAddons/ofxInterface,../../ExternalAddons/ofxThreadSafeLog,../../ExternalAddons/ofxApp,../../ExternalAddons/ofxApp&quot; /Users/oriol/OF_uricat/AddonsExamples/ofxApp_example"
+            argument = "-o&quot;../OpenFrameworks&quot;  -p&quot;osx,vs&quot; -a&quot;ofxNetwork,ofxOsc,ofxPoco,ofxXmlSettings,ofxOpenCv,../../ExternalAddons/ofxFontStash,../../ExternalAddons/ofxFontStash2,../../ExternalAddons/ofxTuio,../../ExternalAddons/ofxJSON,../../ExternalAddons/ofxSuperLog,../../ExternalAddons/ofxAutoTexture,../../ExternalAddons/ofxMTJsonParser,../../ExternalAddons/ofxSimpleHttp,../../ExternalAddons/ofxTagSystem,../../ExternalAddons/ofxStateMachine,../../ExternalAddons/ofxAssets,../../ExternalAddons/ofxProgressiveTextureLoad,../../ExternalAddons/ofxTexturedObject,../../ExternalAddons/ofxMullion,../../ExternalAddons/ofxJsonSettings,../../ExternalAddons/ofxTimeMeasurements,../../ExternalAddons/ofxRemoteUI,../../ExternalAddons/ofxHistoryPlot,../../ExternalAddons/ofxAnimatable,../../ExternalAddons/ofxScreenSetup,../../ExternalAddons/ofxSensu,../../ExternalAddons/ofxGoogleAnalytics,../../ExternalAddons/ofxInterface,../../ExternalAddons/ofxThreadSafeLog,../../ExternalAddons/ofxApp,../../ExternalAddons/ofxApp&quot; /Users/oriol/Desktop/OF_uricat/AddonsExamples/ofxApp_example"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

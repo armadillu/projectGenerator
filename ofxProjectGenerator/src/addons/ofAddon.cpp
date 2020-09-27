@@ -447,7 +447,6 @@ void ofAddon::parseConfig(){
 }
 
 bool ofAddon::fromFS(string path, string platform){
-	ofLogWarning() << "fromFS() : path";
     clear();
     this->platform = platform;
 	string prefixPath;
@@ -653,7 +652,6 @@ bool ofAddon::fromFS(string path, string platform){
     parseConfig();
 
 	return true;
-
 }
 
 //void ofAddon::fromXML(string installXmlName){

@@ -257,7 +257,7 @@ void baseProject::addAddon(std::string addonName){
         addonOK = addon.fromFS(standardPath, target);
     }
 	if(!addonOK){
-		ofLogError() << "addon does not exist! " << addonName;
+		ofLogVerbose() << "Ignoring addon that doesn't seem to exist: " << addonName;
 		return; //if addon does not exist, stop early
 	}
 
