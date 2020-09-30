@@ -232,35 +232,62 @@ bool baseProject::save(){
 	return saveProjectFile();
 }
 
+bool baseProject::isAddonCached(const std::string & addonPath, const std::string platform){
+	auto it = addonsCache.find(platform);
+	if (it == addonsCache.end()) return false;
+	auto it2 = it->second.find(addonPath);
+	return it2 != it->second.end();
+}
+
+
 void baseProject::addAddon(std::string addonName){
     ofAddon addon;
     addon.pathToOF = getOFRelPath(projectDir);
     addon.pathToProject = ofFilePath::getAbsolutePath(projectDir);
-    
 
-    
     auto localPath = ofFilePath::join(addon.pathToProject, addonName);
 	bool addonOK = false;
+
+	bool inCache = isAddonCached(addonName, target);
+	//inCache = false; //test no-cache scenario
 
     if (ofDirectory(addonName).exists()){
         // if it's an absolute path, convert to relative...
         string relativePath = ofFilePath::makeRelative(addon.pathToProject, addonName);
         addonName = relativePath;
         addon.isLocalAddon = true;
-        addonOK = addon.fromFS(addonName, target);
+		if(!inCache){
+        		addonOK = addon.fromFS(addonName, target);
+		}else{
+			addon = addonsCache[target][addonName];
+			addonOK = true;
+		}
     } else if(ofDirectory(localPath).exists()){
         addon.isLocalAddon = true;
-        addonOK = addon.fromFS(addonName, target);
+		if(!inCache){
+			addonOK = addon.fromFS(addonName, target);
+		}else{
+			addon = addonsCache[target][addonName];
+			addonOK = true;
+		}
     }else{
         addon.isLocalAddon = false;
         auto standardPath = ofFilePath::join(ofFilePath::join(getOFRoot(), "addons"), addonName);
-        addonOK = addon.fromFS(standardPath, target);
+		if(!inCache){
+			addonOK = addon.fromFS(standardPath, target);
+		}else{
+			addon = addonsCache[target][standardPath];
+			addonOK = true;
+		}
     }
 	if(!addonOK){
 		ofLogVerbose() << "Ignoring addon that doesn't seem to exist: " << addonName;
 		return; //if addon does not exist, stop early
 	}
 
+	if(!inCache){
+		addonsCache[target][addonName] = addon; //cache the addon so we dont have to be reading form disk all the time
+	}
     addAddon(addon);
 
     // Process values from ADDON_DATA
