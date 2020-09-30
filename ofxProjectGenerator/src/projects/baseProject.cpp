@@ -249,7 +249,7 @@ void baseProject::addAddon(std::string addonName){
 	bool addonOK = false;
 
 	bool inCache = isAddonCached(addonName, target);
-	//inCache = false; //test no-cache scenario
+	inCache = false; //test no-cache scenario
 
     if (ofDirectory(addonName).exists()){
         // if it's an absolute path, convert to relative...
@@ -276,7 +276,7 @@ void baseProject::addAddon(std::string addonName){
 		if(!inCache){
 			addonOK = addon.fromFS(standardPath, target);
 		}else{
-			addon = addonsCache[target][standardPath];
+			addon = addonsCache[target][addonName];
 			addonOK = true;
 		}
     }
